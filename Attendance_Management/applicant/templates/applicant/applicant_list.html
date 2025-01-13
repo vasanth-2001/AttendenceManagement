@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Applicant List</title>
+</head>
+<body>
+<h1>Applicants</h1>
+<ul>
+{% for applicant in applicants %}
+    <li>{{ applicant.first_name }} {{ applicant.last_name }} - {{ applicant.email }}</li>
+{% endfor %}
+</ul>
+</body>
+</html>
