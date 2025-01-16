@@ -1,25 +1,3 @@
-"""Attendance_Management URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/3.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
-# from django.contrib import admin
-# from django.urls import path
-
-# urlpatterns = [
-#     path('admin/', admin.site.urls),
-# ]
-
 
 from django.contrib import admin
 from django.conf.urls.static import static
@@ -32,14 +10,18 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 schema_view = get_schema_view(
    openapi.Info(
-      title="Snippets API",
+      title="HR Management",
       default_version='v1',
-      description="Test description",
+      description="API project HR management",
       terms_of_service="https://www.google.com/policies/terms/",
-      contact=openapi.Contact(email="contact@snippets.local"),
+      contact=openapi.Contact(email="vasanth@gmail.com"),
       license=openapi.License(name="BSD License"),
    ),
    public=True,
@@ -50,13 +32,15 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("api/applicant/",include('applicant.urls')),
-    # path("",include('author.urls')),
+    # path("",include('applicant.urls')),
     path("api/Attendance/",include('Attendance.urls')),
     path('api/department/', include('department.urls')),
     path('api/leave/', include('leave.urls')),
     path('api/staff/', include('staff.urls')),
     path('api/user/', include('user.urls')),
-
+    path('api/userlogin/', include('userlogin.urls')),
+    path('api/token/',swagger_auto_schema(methods=['post'],security=[])(TokenObtainPairView.as_view())),
+    path('api/token/refresh/',swagger_auto_schema(methods=['post'],security=[])(TokenRefreshView.as_view())),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 ]
 # ]+ static(
